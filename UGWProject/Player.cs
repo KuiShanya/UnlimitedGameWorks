@@ -85,6 +85,7 @@ namespace UGWProject
             {
 
                 playerPos += velocity;
+                ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, ObjRect.Width, ObjRect.Height)
                 //this.ObjRect = new Rectangle( ) 
                 if (kboardstate.IsKeyDown(Keys.Escape))
                 {
