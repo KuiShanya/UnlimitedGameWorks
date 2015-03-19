@@ -72,6 +72,11 @@ namespace UGWProject
 
             // TODO: Add your update logic here
 
+            //Add the player.Move here!
+            //going to need a collision detection so that if the player is colliding with the ground then
+            // (player object).HasJumped = false so that it detects that player has landed on the ground and
+            //can jump again
+
             base.Update(gameTime);
         }
 

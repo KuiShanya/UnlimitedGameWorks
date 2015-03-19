@@ -19,11 +19,12 @@ namespace UGWProject
         private int spdWithBlock;//the speed of the player while moving the block
         KeyboardState kboardstate;//getting the keyboard state;
         KeyboardState prevKeyPressed; //takes the previous key that was pressed
-        //string[] aliveControl = {"A","D","F"}; //the list of keys that can be pressed while alive
-        //string[] deadControl = {"W","A","S","D"};//list of keys that can be pressed while dead. 
-        //Going to also need a key[] for the space bar
-       // Boolean[] activeKeyD = {false,false,false,false};//if a key is active in the dead state
-       // Boolean[] activeKeyA = {false,false,false};//if a key is active in the alive state
+        private bool hasJumped; //will set it so that the player can not constantly jump
+        private Vector2 velocity;//the velcotiy of the player jumping/falling
+        protected Vector2 playerPos; //the position in relation to the rectangle so it can jump;
+        //the x and y to parse float to int and use for x and y in rectangle
+        private int xPosV;
+        private int yPosV;
 
         //properties
         public int MemsColl
@@ -44,11 +45,34 @@ namespace UGWProject
             set { spdWithBlock = value; }
         }
 
+        public bool HasJumped
+        {
+            get { return hasJumped; }
+        }
+
+        public Vector2 Velocity
+        {
+            get { return velocity; }
+            set { velocity = value ; }
+        }
+
+        public Vector2 PlayerPos
+        {
+            get { return playerPos; }
+            set { playerPos = value; }
+        }
+
         //constructor
         public Player(Rectangle playrect, Texture2D playtext):base(false, playrect,playtext)
         {
+            hasJumped = false; //default, no jump
+            playerPos = new Vector2(this.ObjRect.X, this.ObjRect.Y);//setting the position equal to the vector
             
+
         }
+
+
+
 
         //overrides move method to be specific to character
         override public void Move()
@@ -59,39 +83,54 @@ namespace UGWProject
             //going to add aplayer enum later in
             if (IsDead == false)
             {
-                if (kboardstate.IsKeyDown(Keys.A))
+
+                playerPos += velocity;
+                //this.ObjRect = new Rectangle( ) 
+                if (kboardstate.IsKeyDown(Keys.Escape))
                 {
-                    //activeKeyA[0] = true;
-                    ObjRect = new Rectangle(ObjRect.X - moveSpd, ObjRect.Y, ObjRect.Width, ObjRect.Height);
+                    //pause menu
                 }
+                else if (kboardstate.IsKeyDown(Keys.A))
+                {
+                    
+                ObjRect = new Rectangle(ObjRect.X - moveSpd, ObjRect.Y, ObjRect.Width, ObjRect.Height);
+                playerPos = new Vector2(this.ObjRect.X, this.ObjRect.Y);
+                } 
+                else if(kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyUp(Keys.D))
+                {
+                    //pushing/pulling the block from the right side.
+                }  
                 else if(kboardstate.IsKeyDown(Keys.D))
                 {
                     ObjRect = new Rectangle(ObjRect.X + moveSpd, ObjRect.Y, ObjRect.Width, ObjRect.Height);
+                    playerPos = new Vector2(this.ObjRect.X, this.ObjRect.Y);
                 }
                 else if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyUp(Keys.A))
                 {
                     //pushing/pulling from the left side of the block
                 }
-                else if(kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyUp(Keys.D))
-                {
-                    //pushing/pulling the block from the right side.
-                }
-                else if (kboardstate.IsKeyDown(Keys.Space))
+                //Gravity and jumping v
+                if (kboardstate.IsKeyDown(Keys.Space) && hasJumped == false)        
                 {
                     //jumping
+                        
+                    playerPos.Y += 10f;
+                    velocity.Y += -5f;
+                    hasJumped = true;
+                    ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, ObjRect.Width, ObjRect.Height);        
                 }
-                else if (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyUp(Keys.Space))
-                {
-                    //arc going to the right jump
-                }
-                else if (kboardstate.IsKeyDown(Keys.A) && prevKeyPressed.IsKeyUp(Keys.Space))
-                {
-                    //jumping to the left
-                }
-                else if (kboardstate.IsKeyDown(Keys.Escape))
-                {
-                    //pause menu
-                }
+                    if(hasJumped == true)
+                    {
+                        //gravity
+                        float i = 1;
+                        velocity.Y += 0.2f * i;
+                    }
+                    if (hasJumped ==false)                   
+                    {
+                        velocity.Y = 0f;
+                        //need to make hasjumped = false in the collision method
+                    }
+      
                 prevKeyPressed = kboardstate;
             }
             
