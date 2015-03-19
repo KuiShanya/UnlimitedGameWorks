@@ -90,22 +90,22 @@ namespace UGWProject
                 {
                     //pause menu
                 }
-                else if (kboardstate.IsKeyDown(Keys.A))
+                if (kboardstate.IsKeyDown(Keys.A))
                 {
                     
                 ObjRect = new Rectangle(ObjRect.X - moveSpd, ObjRect.Y, ObjRect.Width, ObjRect.Height);
                 playerPos = new Vector2(this.ObjRect.X, this.ObjRect.Y);
                 } 
-                else if(kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyUp(Keys.D))
+                if(kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyUp(Keys.D))
                 {
                     //pushing/pulling the block from the right side.
                 }  
-                else if(kboardstate.IsKeyDown(Keys.D))
+                if(kboardstate.IsKeyDown(Keys.D))
                 {
                     ObjRect = new Rectangle(ObjRect.X + moveSpd, ObjRect.Y, ObjRect.Width, ObjRect.Height);
                     playerPos = new Vector2(this.ObjRect.X, this.ObjRect.Y);
                 }
-                else if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyUp(Keys.A))
+                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyUp(Keys.A))
                 {
                     //pushing/pulling from the left side of the block
                 }
