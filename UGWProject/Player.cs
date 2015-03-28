@@ -75,6 +75,9 @@ namespace UGWProject
 
 
         //overrides move method to be specific to character
+        /// <summary>
+        /// The controls for the character depending on if they are alive or dead changes
+        /// </summary>
         override public void Move()
         {
             //takes the first key pressed in a returned array of keys
@@ -85,7 +88,7 @@ namespace UGWProject
             {
 
                 playerPos += velocity;
-                ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, ObjRect.Width, ObjRect.Height)
+                ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, ObjRect.Width, ObjRect.Height);
                 //this.ObjRect = new Rectangle( ) 
                 if (kboardstate.IsKeyDown(Keys.Escape))
                 {
@@ -94,45 +97,76 @@ namespace UGWProject
                 if (kboardstate.IsKeyDown(Keys.A))
                 {
                     
-                ObjRect = new Rectangle(ObjRect.X - moveSpd, ObjRect.Y, ObjRect.Width, ObjRect.Height);
-                playerPos = new Vector2(this.ObjRect.X, this.ObjRect.Y);
+                playerPos.X -= moveSpd;
                 } 
-                if(kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyUp(Keys.D))
+                if(kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.D))
                 {
                     //pushing/pulling the block from the right side.
+                    playerPos.X += spdWithBlock;
                 }  
                 if(kboardstate.IsKeyDown(Keys.D))
                 {
-                    ObjRect = new Rectangle(ObjRect.X + moveSpd, ObjRect.Y, ObjRect.Width, ObjRect.Height);
-                    playerPos = new Vector2(this.ObjRect.X, this.ObjRect.Y);
+                    playerPos.X += moveSpd;
                 }
-                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyUp(Keys.A))
+                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.A))
                 {
                     //pushing/pulling from the left side of the block
+                    playerPos.X -= spdWithBlock;
                 }
                 //Gravity and jumping v
                 if (kboardstate.IsKeyDown(Keys.Space) && hasJumped == false)        
                 {
-                    //jumping
-                        
-                    playerPos.Y += 10f;
+                    //jumping  
+                    playerPos.Y += 7f;
                     velocity.Y += -5f;
                     hasJumped = true;
-                    ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, ObjRect.Width, ObjRect.Height);        
+                    playerPos += velocity;    
                 }
                     if(hasJumped == true)
                     {
                         //gravity
                         float i = 1;
-                        velocity.Y += 0.2f * i;
+                        velocity.Y += 0.192f * i;
                     }
                     if (hasJumped ==false)                   
                     {
                         velocity.Y = 0f;
                         //need to make hasjumped = false in the collision method
+                        ObjRect = new Rectangle((int)playerPos.X,(int)playerPos.Y, ObjRect.Width, ObjRect.Height);
+                        playerPos = new Vector2(this.ObjRect.X, this.ObjRect.Y);
                     }
+                ObjRect = new Rectangle((int)playerPos.X,(int)playerPos.Y, ObjRect.Width, ObjRect.Height);
       
                 prevKeyPressed = kboardstate;
+            }
+            else if(IsDead == true)
+            {
+                ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, ObjRect.Width, ObjRect.Height);
+                if (kboardstate.IsKeyDown(Keys.Escape))
+                {
+                    //pause menu
+                }
+                if (kboardstate.IsKeyDown(Keys.A))
+                {
+                    
+                playerPos.X -= moveSpd;
+                } 
+                if(kboardstate.IsKeyDown(Keys.D))
+                {
+                    playerPos.X += moveSpd;
+                }
+                if (kboardstate.IsKeyDown(Keys.W))
+                {
+                    playerPos.Y -= moveSpd;
+                }
+                if (kboardstate.IsKeyDown(Keys.S))
+                {
+                    playerPos.Y += moveSpd;
+                }
+                ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, ObjRect.Width, ObjRect.Height);
+
+                prevKeyPressed = kboardstate;
+
             }
             
         }
