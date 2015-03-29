@@ -20,10 +20,13 @@ namespace UGWProject
         SpriteBatch spriteBatch;
         //attributes we need to add:
         Texture2D spriteSheets;
+        //most of the classes will have methods and attributes that you can call
+        //like the player.HasJumped will be called and set to false when the player 
+        //is interacting with the ground
 
         //enumerator
         enum physicalState { PaulIdleRight, PaulIdleLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft };
-
+        //we will need an enum for paul's sprites in a ghost state as well. It wont have a jumping state
 
         public Game1()
             : base()
