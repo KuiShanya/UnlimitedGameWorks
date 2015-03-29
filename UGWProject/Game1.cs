@@ -18,6 +18,12 @@ namespace UGWProject
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        //attributes we need to add:
+        Texture2D spriteSheets;
+
+        //enumerator
+        enum physicalState { PaulIdleRight, PaulIdleLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft };
+
 
         public Game1()
             : base()
