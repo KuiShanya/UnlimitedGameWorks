@@ -19,7 +19,24 @@ namespace UGWProject
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         //attributes we need to add:
-        Texture2D spriteSheets;
+        //the textures for different enemies/objects/backgrounds will change
+        //the paul and the memories will always stay no matter the change in level
+        Texture2D paulPhysical;
+        Texture2D paulGhost;
+        Texture2D memory;
+        //the background will change
+        Texture2D enemyPhysical1;
+        Texture2D enemyPhysical2;
+        Texture2D enemyGhost1;
+        Texture2D enemyGhost2;
+        Texture2D phaseBlockTexture;
+        Texture2D deadlyObjs;
+        Texture2D backGround;
+        Texture2D moveBlockTexture;
+        Texture2D basicBlock;
+        //this clss will be changed as we get more things done
+        //these are the objects
+        Player paulPlayer;
         //most of the classes will have methods and attributes that you can call
         //like the player.HasJumped will be called and set to false when the player 
         //is interacting with the ground
