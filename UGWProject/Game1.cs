@@ -40,9 +40,17 @@ namespace UGWProject
         //most of the classes will have methods and attributes that you can call
         //like the player.HasJumped will be called and set to false when the player 
         //is interacting with the ground
+        Rectangle paulRect;
 
+        //setting up input
+        KeyboardState kboardstate;//getting the keyboard state;
+        KeyboardState prevKeyPressed; //takes the previous key that was pressed
+        private bool hasJumped; //will set it so that the player can not constantly jump
+        private Vector2 velocity;//the velcotiy of the player jumping/falling
+        protected Vector2 playerPos; //the position in relation to the rectangle so it can jump;
         //enumerator
-        enum physicalState { PaulIdleRight, PaulIdleLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft };
+        enum PhysicalState { PaulFaceRight, PaulFaceLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft ,PaulPushLeft, PaulPushRight};
+        PhysicalState paulPCurrent = PhysicalState.PaulFaceRight;//default
         //we will need an enum for paul's sprites in a ghost state as well. It wont have a jumping state
 
         public Game1()
@@ -75,6 +83,130 @@ namespace UGWProject
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            paulRect = new Rectangle(50, 50, 50, 50);//temp rect values, will replace with correct ones later
+            paulPlayer = new Player(paulRect, paulPhysical, playerPos, false);
+        }
+
+        /// <summary>
+        /// Player.Move method has been added here to make it easier with the enum/state machine
+        /// </summary>
+        protected void ProcessInput()
+        {
+            //Add the player.Move here!
+            //going to need a collision detection so that if the player is colliding with the ground then
+            // (player object).HasJumped = false so that it detects that player has landed on the ground and
+            //can jump again
+            //the key controls change depending on if paul is dead or alive
+            //control handling
+            kboardstate = new KeyboardState();
+            if (paulPlayer.IsDead == false)
+            {
+
+                playerPos += velocity;
+                paulPlayer.ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
+                //this.ObjRect = new Rectangle( ) 
+                if (kboardstate.IsKeyDown(Keys.Escape))
+                {
+                    //pause menu
+                }
+                if (kboardstate.IsKeyDown(Keys.A) && prevKeyPressed.IsKeyDown(Keys.A))//IF going left and last state was facing left
+                {
+
+                    playerPos.X -= paulPlayer.MoveSpeed;
+                    paulPCurrent = PhysicalState.PaulWalkLeft;
+                }
+                if(kboardstate.IsKeyUp(Keys.A) && prevKeyPressed.IsKeyDown(Keys.D))
+                {
+                    paulPCurrent = PhysicalState.PaulFaceLeft;
+                }
+                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.D))
+                {
+                    //pushing/pulling the block from the right side.
+                    playerPos.X += paulPlayer.SpeedWithBlock;
+                    paulPCurrent = PhysicalState.PaulPushRight;
+                }
+                if (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyDown(Keys.D))
+                {
+                    playerPos.X += paulPlayer.MoveSpeed;
+                    paulPCurrent = PhysicalState.PaulWalkRight;
+                }
+                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.A))
+                {
+                    //pushing/pulling from the left side of the block
+                    playerPos.X -= paulPlayer.SpeedWithBlock;
+                    paulPCurrent = PhysicalState.PaulPushLeft;
+                }
+                //Gravity and jumping v
+                if (kboardstate.IsKeyDown(Keys.Space) && hasJumped == false)
+                {
+                    //jumping  
+                    playerPos.Y += 7f;
+                    velocity.Y += -5f;
+                    hasJumped = true;
+                    playerPos += velocity;
+                    if(kboardstate.IsKeyDown(Keys.A))
+                    {
+                        paulPCurrent = PhysicalState.PaulJumpLeft;
+                    }
+                    if(kboardstate.IsKeyDown(Keys.D))
+                    {
+                        paulPCurrent = PhysicalState.PaulJumpRight;
+                    }
+                }
+                if (hasJumped == true)
+                {
+                    //gravity
+                    float i = 1;
+                    velocity.Y += 0.192f * i;
+                }
+                if (hasJumped == false)
+                {
+                    velocity.Y = 0f;
+                    //need to make hasjumped = false in the collision method
+                    paulPlayer.ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
+                    playerPos = new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y);
+                    if(paulPCurrent == PhysicalState.PaulJumpRight)
+                    {
+                        paulPCurrent = PhysicalState.PaulFaceRight;
+                    }
+                    if(paulPCurrent == PhysicalState.PaulJumpLeft)
+                    {
+                        paulPCurrent = PhysicalState.PaulPushLeft;
+                    }
+
+                }
+                paulPlayer.ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
+
+                prevKeyPressed = kboardstate;
+            }
+            else if (paulPlayer.IsDead == true)
+            {
+                paulPlayer.ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
+                if (kboardstate.IsKeyDown(Keys.Escape))
+                {
+                    //pause menu
+                }
+                if (kboardstate.IsKeyDown(Keys.A))
+                {
+
+                    playerPos.X -= paulPlayer.MoveSpeed;
+                }
+                if (kboardstate.IsKeyDown(Keys.D))
+                {
+                    playerPos.X += paulPlayer.MoveSpeed;
+                }
+                if (kboardstate.IsKeyDown(Keys.W))
+                {
+                    playerPos.Y -= paulPlayer.MoveSpeed;
+                }
+                if (kboardstate.IsKeyDown(Keys.S))
+                {
+                    playerPos.Y += paulPlayer.MoveSpeed;
+                }
+                paulPlayer.ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
+
+                prevKeyPressed = kboardstate;
+            }
         }
 
         /// <summary>
@@ -93,15 +225,15 @@ namespace UGWProject
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+           // if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                //Exit();
 
             // TODO: Add your update logic here
+            ProcessInput();
+            
 
-            //Add the player.Move here!
-            //going to need a collision detection so that if the player is colliding with the ground then
-            // (player object).HasJumped = false so that it detects that player has landed on the ground and
-            //can jump again
+            
+            
 
             base.Update(gameTime);
         }
@@ -114,8 +246,15 @@ namespace UGWProject
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
 
+            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            
+
+
+
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
