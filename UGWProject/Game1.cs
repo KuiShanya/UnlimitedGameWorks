@@ -98,7 +98,10 @@ namespace UGWProject
             //can jump again
             //the key controls change depending on if paul is dead or alive
             //control handling
-            kboardstate = new KeyboardState();
+            
+            //THIS STATE MACHINE IS WEIRD! NEED TO FIX IT!
+
+            kboardstate = Keyboard.GetState();
             if (paulPlayer.IsDead == false)
             {
 
@@ -158,6 +161,7 @@ namespace UGWProject
                     //gravity
                     float i = 1;
                     velocity.Y += 0.192f * i;
+                    playerPos += velocity;
                 }
                 if (hasJumped == false)
                 {
@@ -230,6 +234,10 @@ namespace UGWProject
 
             // TODO: Add your update logic here
             ProcessInput();
+            //the enemy classes .Move() method will go in here. 
+            //there will also need to be a collision that changes the direction of the enemy hits an object
+            //or is about to fall  off the edge.
+            //the .memsAllCollected will be in here. It will constantly be checking to see if the player has collected all the memories
             
 
             

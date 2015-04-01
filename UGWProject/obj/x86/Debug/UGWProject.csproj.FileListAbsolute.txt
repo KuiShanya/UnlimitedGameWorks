@@ -1,0 +1,10 @@
+C:\Users\Karen\Desktop\UnlimitedGameWorks\UnlimitedGameWorks\UGWProject\obj\x86\Debug\UGWProject.csprojResolveAssemblyReference.cache
+C:\Users\Karen\Desktop\UnlimitedGameWorks\UnlimitedGameWorks\UGWProject\bin\WindowsGL\Debug\SDL.dll
+C:\Users\Karen\Desktop\UnlimitedGameWorks\UnlimitedGameWorks\UGWProject\bin\WindowsGL\Debug\UGWProject.exe
+C:\Users\Karen\Desktop\UnlimitedGameWorks\UnlimitedGameWorks\UGWProject\bin\WindowsGL\Debug\UGWProject.pdb
+C:\Users\Karen\Desktop\UnlimitedGameWorks\UnlimitedGameWorks\UGWProject\bin\WindowsGL\Debug\Lidgren.Network.dll
+C:\Users\Karen\Desktop\UnlimitedGameWorks\UnlimitedGameWorks\UGWProject\bin\WindowsGL\Debug\MonoGame.Framework.dll
+C:\Users\Karen\Desktop\UnlimitedGameWorks\UnlimitedGameWorks\UGWProject\bin\WindowsGL\Debug\OpenTK.dll
+C:\Users\Karen\Desktop\UnlimitedGameWorks\UnlimitedGameWorks\UGWProject\bin\WindowsGL\Debug\Tao.Sdl.dll
+C:\Users\Karen\Desktop\UnlimitedGameWorks\UnlimitedGameWorks\UGWProject\obj\x86\Debug\UGWProject.exe
+C:\Users\Karen\Desktop\UnlimitedGameWorks\UnlimitedGameWorks\UGWProject\obj\x86\Debug\UGWProject.pdb

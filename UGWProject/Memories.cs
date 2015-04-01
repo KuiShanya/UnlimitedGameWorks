@@ -14,7 +14,8 @@ namespace UGWProject
     class Memories : GamePiece
     {
         //attributes
-        private int totMem;
+        private int totMem; //the total memories in that level
+        private bool advanceLevel;//if all the memories have been collected, this will be true and advance on
 
         //properties
         public int TotMem
@@ -23,16 +24,37 @@ namespace UGWProject
             set { totMem = value; }
         }
 
+        public bool AdvanceLevel
+        {
+            get { return advanceLevel; }
+        }
+
         //constructor
         public Memories(int numofmemories, Rectangle memorect, Texture2D memotexture):base(memorect,memotexture)
         {
             totMem = numofmemories; 
         }
 
-        //add memory method when player collides with memeory
+        /// <summary>
+        /// When a player collides with a memory, it will add it to the memory counter
+        /// </summary>
+        /// <param name="playr"></param>
         public void AddMemory(Player playr)
         {
-            //stub. Add one to playr memories
+            
+            playr.MemsColl++;
+        }
+        
+        public void memsAllCollected(Player plr)
+        {
+            if(plr.MemsColl == totMem)
+            {
+                advanceLevel = true;
+            }
+            else
+            {
+                advanceLevel = false;
+            }
         }
     }
 }
