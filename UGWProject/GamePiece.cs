@@ -14,9 +14,9 @@ namespace UGWProject
     abstract class GamePiece
     {
         //attributes
-        private Texture2D gameTexture;
-        private Rectangle objRect;
-        private bool realWorld;
+        protected Texture2D gameTexture;
+        protected Rectangle objRect;
+        protected bool realWorld;
 
         //properties
         public Texture2D GameTexture
