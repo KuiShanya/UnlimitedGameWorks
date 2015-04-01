@@ -101,7 +101,7 @@ namespace UGWProject
             
             //THIS STATE MACHINE IS WEIRD! NEED TO FIX IT!
 
-            kboardstate = new KeyboardState();
+            kboardstate = Keyboard.GetState();
             if (paulPlayer.IsDead == false)
             {
 
@@ -161,6 +161,7 @@ namespace UGWProject
                     //gravity
                     float i = 1;
                     velocity.Y += 0.192f * i;
+                    playerPos += velocity;
                 }
                 if (hasJumped == false)
                 {

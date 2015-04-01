@@ -30,9 +30,9 @@ namespace UGWProject
         }
 
         //move method 
-        abstract public void Move()
-        {
+       // abstract public void Move()
+       // {
           
-        }  
+       // }  
     }
 }

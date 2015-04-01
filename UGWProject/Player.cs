@@ -51,7 +51,8 @@ namespace UGWProject
         {
             hasJumped = false; //default, no jump
             playerPos = new Vector2(this.ObjRect.X, this.ObjRect.Y);//setting the position equal to the vector
-            
+            moveSpd = 5;
+            spdWithBlock = 2;
 
         }
 
