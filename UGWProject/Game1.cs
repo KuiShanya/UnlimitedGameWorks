@@ -45,9 +45,9 @@ namespace UGWProject
         //setting up input
         KeyboardState kboardstate;//getting the keyboard state;
         KeyboardState prevKeyPressed; //takes the previous key that was pressed
-        private bool hasJumped; //will set it so that the player can not constantly jump
-        private Vector2 velocity;//the velcotiy of the player jumping/falling
-        protected Vector2 playerPos; //the position in relation to the rectangle so it can jump;
+         bool hasJumped; //will set it so that the player can not constantly jump
+        Vector2 velocity;//the velcotiy of the player jumping/falling
+        Vector2 playerPos; //the position in relation to the rectangle so it can jump;
         //enumerator
         enum PhysicalState { PaulFaceRight, PaulFaceLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft ,PaulPushLeft, PaulPushRight};
         PhysicalState paulPCurrent = PhysicalState.PaulFaceRight;//default
