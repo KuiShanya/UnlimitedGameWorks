@@ -51,7 +51,7 @@ namespace UGWProject
         //enumerator
         enum PhysicalState { PaulFaceRight, PaulFaceLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft ,PaulPushLeft, PaulPushRight};
         PhysicalState paulPCurrent = PhysicalState.PaulFaceRight;//default
-        //we will need an enum for paul's sprites in a ghost state as well. It wont have a jumping state
+        //sprite in the ghost state will only be one state, so there does not need to be an enum for it.
 
         public Game1()
             : base()

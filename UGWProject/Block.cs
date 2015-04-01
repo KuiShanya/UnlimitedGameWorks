@@ -19,7 +19,8 @@ namespace UGWProject
         //constructor
         public Block(Rectangle rect, Texture2D textur):base(rect,textur)
         {
-
+            //the foundation block. Will act as the boarder for the level and also as part of the puzzel.
+            
         }
 
     }
